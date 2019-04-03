@@ -1,3 +1,6 @@
+
+require('./db')
+
 //importing express and body-parser packages and assinging them to variables
 const app = require('express')()
 const bodyParser = require('body-parser')
@@ -8,6 +11,7 @@ const logisticsController = require('./controllers/logisticsController')
 const dashboardController = require('./controllers/dashboardController')
 const usersController = require('./controllers/usersController')
 const authController = require('./controllers/authController')
+const manufacturerController = require('./controllers/manufacturerController')
 
 app.use(bodyParser.json()) // taking full express explication in app variable
 
@@ -27,5 +31,6 @@ app.use('/dashboard/', dashboardController)
 
 app.use('/auth/login', authController)
 
+app.use('/manufacturer/', manufacturerController)
 
 module.exports = app
