@@ -1,20 +1,23 @@
-exports.getProducts = () => {
-    return [
-        {
-            name: "Vivo Y53",
-            company: "Vivo",
-            manufacturer: "China",
-            price: "10,000",
-            owner: "Maneesha"
-        },
-        {
+const client = require('../db')
 
-            name: "Redmi note 5",
-            company: "Redmi",
-            manufacturer: "China",
-            price: "15,000",
-            owner: "Mohana Priya"
-        }
+exports.getProducts = async () => {
+    const result = await client.query('select * from products')
+    return result.rows;
+}
 
-    ]
+exports.getProductsByID = async (id) => {
+    const result = await client.query(`select * from products where id = ${id}`)
+    return result.rows[0];
+}
+
+exports.insert = async (username, manufacturerId, products) => {
+    try {
+        const query = 'insert into products (name, code, manufacturer_id, price, description, quantity, created_at, created_by) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)'
+        const values = [products.name, products.code, manufacturerId, products.price, products.description, products.quantity, new Date(), username];
+        await client.query(query, values);
+    }
+    catch (err) {
+        console.log(err);
+        throw 'Cannot insert product';
+    }
 }
